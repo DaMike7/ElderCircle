@@ -1,0 +1,27 @@
+@import "tailwindcss";
+@plugin "flowbite-react/plugin/tailwindcss";
+@source "../.flowbite-react/class-list.json";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@theme {
+    /*PINK WHITE THEME*/
+    --color-pdtext : #ede8eb ;
+    --color-pdbg : #0e0c0d ;
+    --color-pdprimary: #c7b8c2 ;
+    --color-pdsecondary : #5b5348;
+    --color-pdaccent : #ba1274 ;
+    --color-pltext : #171215 ;
+    --color-plbg : #f3f1f2 ;
+    --color-plprimary : #473842 ;
+    --color-plsecondary : #b7afa4 ;
+    --color-placcent : #ed45a7;
+
+    /*GREEN THEME*/
+    --color-gdtext  : #ddf3e9;
+    --color-gdbg: #040b09;
+    --color-gdprimary : #7ee7ba;
+    --color-gdsecondary : #13905a;
+    --color-gdaccent: #25ef97;
+}
