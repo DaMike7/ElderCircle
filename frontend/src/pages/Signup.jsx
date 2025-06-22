@@ -3,16 +3,10 @@ import { Link } from "react-router-dom";
 //import client from "../api";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
-import UserIpInfo from "../services/GetLocation";
-
-const fs = require('fs');
-const countries = JSON.parse(fs.readFileSync('../services/countries.json', 'utf8'));
-
-
+import countries from '../services/countries.json'
+import { UserIpInfo } from "../services/GetLocation";
 
 const userSignup = () => {
-    const [cnerror,setcnerror] = useState(null)
-    const [cities, setCities] = useState([])
     const [error, setError] = useState(null);
     const [message, displayMessage] = useState(null);
     const navigate = useNavigate()
@@ -23,6 +17,10 @@ const userSignup = () => {
     const [userBirthday, setBirthday] = useState('');
     const [first_cn, setFCNumber] = useState('');
     const [password, setPassword] = useState('');
+    const [countryCode, setCountryCode] = useState(null);
+    const [countryName, setCountryName] = useState(null);
+    const [ipAddress, setIpAddress] = useState(null);
+    const [city, setCity] = useState(null);
 
     const handleTUSignup = async (e) => {
         e.preventDefault();
@@ -34,8 +32,8 @@ const userSignup = () => {
                 first_name : firstName,
                 last_name : lastName,
                 second_contact_number: second_cn,
-                city : '',
-                country : '',
+                city : city,
+                country : countryName,
                 password : password
 
             }, { withCredentials: true,
@@ -62,6 +60,27 @@ const userSignup = () => {
             displayMessage(null)
         }
     };
+
+    
+    useEffect(() => {
+        const fetchLocation = async () => {
+        const location = await UserIpInfo();
+        if (location) {
+            setIpAddress(location.ip_address);
+            setCity(location.city);
+            setCountryCode(location.country);
+    
+            const matched = countries.find(c => c.code === location.country);
+            if (matched) {
+            setCountryName(matched.name);
+            } else {
+            setCountryName("Unknown");
+            }
+        }
+        };
+    
+        fetchLocation();
+    }, []);
 
     return (
         <>
@@ -105,12 +124,13 @@ const userSignup = () => {
 
                         <div>
                             <label className='text-sm text-gdtext font-medium mb-2 block'>Country</label>
-                            <UserIpInfo/>
+                            <input name="text" type="number" className="bg-slate-100 w-full text-sm text-black px-4 py-3 rounded-md outline-0 font-semibold border border-gdtext focus:border-gdsecondary focus:bg-gdtext" readOnly placeholder={countryName} />
+                            
                         </div>
 
                         <div>
                         <label className='text-sm text-gdtext font-medium mb-2 block'>Password</label>
-                        <input name="password" type="password" required className="bg-slate-100 w-full text-sm text-gdbg px-4 py-3 rounded-md outline-0 font-semibold border border-gdtext focus:border-gdsecondary focus:bg-gdtext" placeholder="Enter Password" />
+                        <input name="password" type="password" className="bg-slate-100 w-full text-sm text-gdbg px-4 py-3 rounded-md outline-0 font-semibold border border-gdtext focus:border-gdsecondary focus:bg-gdtext" placeholder="Enter Password" />
                         </div>
                        
                     </div>
