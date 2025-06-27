@@ -43,17 +43,17 @@ const userSchema = new mongoose.Schema(
         },
 
         country:{
-            type:Text,
+            type:String,
             required:true,
         },
 
         city:{
-            type:Text,
+            type:String,
             required:true,
         },
 
         ip_address:{
-            type:Int,
+            type:String,
             required:true,
         },
         profile_picture:{
